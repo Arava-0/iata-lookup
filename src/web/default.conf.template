@@ -1,0 +1,21 @@
+server {
+	listen ${WEB_PORT};
+
+	root /usr/share/nginx/html;
+	index index.html;
+
+	# SPA fallback — toutes les routes retournent index.html
+	location / {
+		try_files $uri $uri/ /index.html;
+	}
+
+	# Pas de cache sur index.html (toujours à jour)
+	location = /index.html {
+		add_header Cache-Control "no-cache, no-store, must-revalidate";
+	}
+
+	# Cache long sur les assets Vite (hash dans le nom de fichier)
+	location /assets/ {
+		add_header Cache-Control "public, max-age=31536000, immutable";
+	}
+}
