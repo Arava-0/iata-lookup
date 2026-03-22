@@ -2,6 +2,8 @@
 
 [Français](#fr---français) | [English](#en---english)
 
+![IATA Lookup Preview](docs/preview.png)
+
 ---
 
 ## FR — Français
