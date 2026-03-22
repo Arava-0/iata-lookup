@@ -1,4 +1,4 @@
-# ── Stage 1 : build ──────────────────────────────────────────────────────────
+# Stage 1 : build
 FROM node:24-alpine AS builder
 
 WORKDIR /app
@@ -9,7 +9,7 @@ RUN npm ci
 COPY src/api ./src/api
 RUN npm run build
 
-# ── Stage 2 : run ─────────────────────────────────────────────────────────────
+# Stage 2 : run
 FROM node:24-alpine
 
 WORKDIR /app

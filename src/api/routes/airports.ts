@@ -8,7 +8,6 @@ airports.get("/", (ctx) => {
 	const { iata, icao, type, country, q: searchQuery, limit } = ctx.req.query();
 	const maxResults = Math.min(parseInt(limit ?? "100"), 1000);
 
-	// Fast path: direct lookup by IATA or ICAO
 	if (iata) {
 		const airport = store.byIata.get(iata.toUpperCase());
 		return ctx.json(airport ? [airport] : []);
@@ -19,7 +18,6 @@ airports.get("/", (ctx) => {
 		return ctx.json(airport ? [airport] : []);
 	}
 
-	// Filtered scan
 	let results = store.airports;
 
 	if (type) {

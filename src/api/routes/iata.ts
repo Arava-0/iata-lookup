@@ -4,7 +4,7 @@ import { ZONES } from "../config/per-diem.js";
 
 export const iata = new Hono();
 
-// GET /iata  →  all airports with an IATA code, enriched with country name and zone
+// GET /iata
 iata.get("/", (ctx) => {
 	const results = store.airports
 		.filter((airport) => airport.iata_code)
