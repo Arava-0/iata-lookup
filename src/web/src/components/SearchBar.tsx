@@ -1,4 +1,5 @@
 import { useState, useRef, useEffect, type KeyboardEvent } from "react";
+import { Search, Loader2 } from "lucide-react";
 import type { IataEntry } from "../types";
 
 interface Props {
@@ -160,11 +161,14 @@ export function SearchBar({ onSearch, loading, suggestions }: Props) {
 					type="submit"
 					disabled={loading || !value.trim()}
 					className="
-						px-6 py-3 rounded-xl bg-sky-600 hover:bg-sky-500 text-white font-semibold
-						disabled:opacity-40 disabled:cursor-not-allowed transition-colors
+						px-3 sm:px-6 py-3 rounded-xl bg-sky-600 hover:bg-sky-500 text-white font-semibold
+						disabled:opacity-40 disabled:cursor-not-allowed transition-colors shrink-0
 					"
 				>
-					{loading ? "..." : "Lookup"}
+					<span className="sm:hidden">
+						{loading ? <Loader2 size={18} className="animate-spin" /> : <Search size={18} />}
+					</span>
+					<span className="hidden sm:inline">{loading ? "…" : "Lookup"}</span>
 				</button>
 			</form>
 
