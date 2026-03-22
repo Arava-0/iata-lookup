@@ -15,6 +15,7 @@ export function SearchBar({ onSearch, loading, suggestions }: Props) {
 	const [open, setOpen]             = useState(false);
 	const [highlighted, setHighlighted] = useState(-1);
 	const containerRef                = useRef<HTMLDivElement>(null);
+	const inputRef                    = useRef<HTMLInputElement>(null);
 	const justSelectedRef             = useRef(false);
 
 	useEffect(() => {
@@ -103,6 +104,7 @@ export function SearchBar({ onSearch, loading, suggestions }: Props) {
 		justSelectedRef.current = true;
 		setValue("");
 		setOpen(false);
+		inputRef.current?.blur();
 		onSearch(entry.iata_code);
 	}
 
@@ -135,6 +137,7 @@ export function SearchBar({ onSearch, loading, suggestions }: Props) {
 		<div ref={containerRef} className="relative w-full max-w-lg">
 			<form action={handleAction} className="flex gap-3">
 				<input
+					ref={inputRef}
 					name="search"
 					type="text"
 					value={value}
