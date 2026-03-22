@@ -2,7 +2,7 @@ COMPOSE      = docker compose
 COMPOSE_FILE = docker-compose.yml
 
 -include .env
-export $(shell sed 's/=.*//' .env 2>/dev/null)
+export
 
 .PHONY: start stop restart build logs logs-api logs-web status delete api-shell web-shell health help
 
