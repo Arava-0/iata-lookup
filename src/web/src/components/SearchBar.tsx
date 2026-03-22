@@ -168,7 +168,10 @@ export function SearchBar({ onSearch, loading, suggestions }: Props) {
 					<span className="sm:hidden">
 						{loading ? <Loader2 size={18} className="animate-spin" /> : <Search size={18} />}
 					</span>
-					<span className="hidden sm:inline">{loading ? "…" : "Lookup"}</span>
+					<span className="hidden sm:inline relative">
+						<span className={loading ? "invisible" : ""}>Lookup</span>
+						{loading && <Loader2 size={16} className="animate-spin absolute inset-0 m-auto" />}
+					</span>
 				</button>
 			</form>
 
