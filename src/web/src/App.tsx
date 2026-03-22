@@ -48,6 +48,8 @@ export function App() {
 		setError(null);
 		setData(null);
 
+		const minDelay = new Promise((resolve) => setTimeout(resolve, 650));
+
 		try {
 			const airport = await lookupAirport(code);
 
@@ -55,6 +57,7 @@ export function App() {
 				getRunways(airport.ident),
 				getFrequencies(airport.ident),
 				getNavaids(airport.ident),
+				minDelay,
 			]);
 
 			setData({ airport, runways, frequencies, navaids });
