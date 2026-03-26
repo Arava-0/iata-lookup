@@ -10,7 +10,7 @@ services:
       PORT: "${API_PORT}"
       NODE_ENV: production
     volumes:
-      - iata-data:/app/data
+      - ./data:/app/data
     restart: unless-stopped
 
   web:
@@ -22,6 +22,3 @@ services:
     environment:
       WEB_PORT: "${WEB_PORT}"
     restart: unless-stopped
-
-volumes:
-  iata-data:
