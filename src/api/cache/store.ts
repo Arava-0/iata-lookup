@@ -1,4 +1,4 @@
-import type { Airport, Country, Frequency, Navaid, Region, Runway } from "./types.js";
+import type { Airline, Airport, Country, Frequency, Navaid, Region, Runway } from "./types.js";
 
 export const store = {
 	airports:      [] as Airport[],
@@ -14,4 +14,8 @@ export const store = {
 	frequencies:   new Map<string, Frequency[]>(),  // airport_ident → frequencies[]
 	runways:       new Map<string, Runway[]>(),       // airport_ident → runways[]
 	navaids:       [] as Navaid[],
+
+	airlines:         [] as Airline[],
+	byAirlineIata:    new Map<string, Airline>(),  // IATA (2-letter) → airline
+	byAirlineIcao:    new Map<string, Airline>(),  // ICAO (3-letter) → airline
 };
