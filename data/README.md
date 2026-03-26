@@ -16,3 +16,9 @@ On first start, the API fetches the following files from [OurAirports](https://o
 
 Files are refreshed automatically every day at **03:00**.
 `sync.json` is written only after all downloads complete successfully.
+
+## Manually curated files
+
+| File | Description |
+|------|-------------|
+| `airlines.csv` | All airlines (name, IATA, ICAO, country code). Compiled from multiple data sources (OpenFlights, Wikipedia, AI-assisted research). Country codes were bulk-filled via AI lookup. |
