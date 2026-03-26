@@ -73,14 +73,10 @@ export interface Runway {
 }
 
 export interface Airline {
-	id: string;
 	name: string;
-	alias: string;
 	iata: string;
 	icao: string;
-	callsign: string;
 	country: string;
-	active: boolean;
 }
 
 export interface Navaid {

@@ -3,15 +3,10 @@ import { store } from "../cache/index.js";
 
 export const airlines = new Hono();
 
-// GET /airlines?q=&country=&active=
+// GET /airlines?q=&country=
 airlines.get("/", (ctx) => {
-	const { q: searchQuery, country, active } = ctx.req.query();
+	const { q: searchQuery, country } = ctx.req.query();
 	let results = store.airlines;
-
-	if (active !== undefined) {
-		const onlyActive = active !== "false";
-		results = results.filter((a) => a.active === onlyActive);
-	}
 
 	if (country) {
 		const c = country.toLowerCase();
@@ -24,8 +19,7 @@ airlines.get("/", (ctx) => {
 			(a) =>
 				a.name.toLowerCase().includes(q) ||
 				a.iata.toLowerCase() === q ||
-				a.icao.toLowerCase() === q ||
-				a.callsign.toLowerCase().includes(q)
+				a.icao.toLowerCase() === q
 		);
 	}
 

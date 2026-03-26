@@ -6,13 +6,14 @@ import type { Airline, Airport, Country, Frequency, Navaid, Region, Runway } fro
 
 const DATA_DIR = join(process.cwd(), "data");
 
-function parseCSV<Row>(filename: string): Row[] {
+function parseCSV<Row>(filename: string, delimiter: string = ","): Row[] {
 	const text = readFileSync(join(DATA_DIR, filename), "utf-8");
 
 	const { data, errors } = Papa.parse<Row>(text, {
 		header:          true,
 		skipEmptyLines:  true,
 		transformHeader: (header) => header.trim(),
+		delimiter:       delimiter,
 	});
 
 	if (errors.length > 0) {
@@ -86,31 +87,16 @@ export function loadAll(): void {
 	// Navaids
 	store.navaids = parseCSV<Navaid>("navaids.csv");
 
-	// Airlines (OpenFlights format: no header, comma-separated, \N = null)
-	const airlineText = readFileSync(join(DATA_DIR, "airlines.dat"), "utf-8");
-	const { data: airlineRows } = Papa.parse<string[]>(airlineText, { skipEmptyLines: true });
-
-	const n = (val: string) => (val === "\\N" || val === "" ? "" : val);
-
-	store.airlines = airlineRows
-		.map((row): Airline => ({
-			id:       n(row[0]),
-			name:     n(row[1]),
-			alias:    n(row[2]),
-			iata:     n(row[3]),
-			icao:     n(row[4]),
-			callsign: n(row[5]),
-			country:  n(row[6]),
-			active:   row[7] === "Y",
-		}))
-		.filter((a) => a.iata !== "");
-
+	// Airlines
+	store.airlines = parseCSV<Airline>("airlines.csv");
 	store.byAirlineIata.clear();
 	store.byAirlineIcao.clear();
 
 	for (const airline of store.airlines) {
-		if (airline.iata) store.byAirlineIata.set(airline.iata.toUpperCase(), airline);
-		if (airline.icao) store.byAirlineIcao.set(airline.icao.toUpperCase(), airline);
+		if (airline.iata)
+			store.byAirlineIata.set(airline.iata.toUpperCase(), airline);
+		if (airline.icao)
+			store.byAirlineIcao.set(airline.icao.toUpperCase(), airline);
 	}
 
 	console.log(
