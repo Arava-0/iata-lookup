@@ -1,6 +1,7 @@
 import { existsSync, readFileSync } from "node:fs";
 import { join } from "node:path";
 import { Hono } from "hono";
+import { cors } from "hono/cors";
 import { logger } from "hono/logger";
 import { serve } from "@hono/node-server";
 import { airports } from "./routes/airports.js";
@@ -16,6 +17,7 @@ import { loadAll } from "./cache/index.js";
 
 const app = new Hono();
 
+app.use("*", cors());
 app.use("*", logger());
 
 app.get("/health", (ctx) => {
