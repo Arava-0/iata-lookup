@@ -72,6 +72,17 @@ export interface Runway {
 	he_displaced_threshold_ft: string;
 }
 
+export interface Airline {
+	id: string;
+	name: string;
+	alias: string;
+	iata: string;
+	icao: string;
+	callsign: string;
+	country: string;
+	active: boolean;
+}
+
 export interface Navaid {
 	id: string;
 	filename: string;
