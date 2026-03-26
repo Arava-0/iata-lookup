@@ -10,6 +10,7 @@ import { frequencies } from "./routes/frequencies.js";
 import { runways } from "./routes/runways.js";
 import { navaids } from "./routes/navaids.js";
 import { iata } from "./routes/iata.js";
+import { airlines } from "./routes/airlines.js";
 import { syncAll, scheduleDailySync } from "./sync.js";
 import { loadAll } from "./cache/index.js";
 
@@ -37,6 +38,7 @@ app.route("/frequencies", frequencies);
 app.route("/runways",     runways);
 app.route("/navaids",     navaids);
 app.route("/iata",        iata);
+app.route("/airlines",    airlines);
 
 
 const PORT = parseInt(process.env.PORT ?? "3000");
