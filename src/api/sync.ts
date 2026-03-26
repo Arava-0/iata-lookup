@@ -11,7 +11,6 @@ const SOURCES: Record<string, string> = {
 	"navaids.csv":             "https://davidmegginson.github.io/ourairports-data/navaids.csv",
 	"countries.csv":           "https://davidmegginson.github.io/ourairports-data/countries.csv",
 	"regions.csv":             "https://davidmegginson.github.io/ourairports-data/regions.csv",
-	"airlines.dat":            "https://raw.githubusercontent.com/jpatokal/openflights/master/data/airlines.dat",
 };
 
 const ONE_DAY_MS = 24 * 60 * 60 * 1000;
