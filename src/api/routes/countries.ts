@@ -1,11 +1,25 @@
 import { Hono } from "hono";
 import { store } from "../cache/index.js";
+import type { Country } from "../cache/index.js";
+import { ZONES } from "../config/per-diem.js";
 
 export const countries = new Hono();
 
-// GET /countries?continent=&q=
+function toZone(code: string) {
+	return ZONES[code] ?? "LONG";
+}
+
+function formatCountry(country: Country, enrich: boolean, slim: boolean) {
+	const zone = enrich ? { zone: toZone(country.code) } : {};
+	if (slim) {
+		return { code: country.code, name: country.name, continent: country.continent, ...zone };
+	}
+	return { ...country, ...zone };
+}
+
+// GET /countries?continent=&q=&enrich=true&slim=true
 countries.get("/", (ctx) => {
-	const { continent, q: searchQuery } = ctx.req.query();
+	const { continent, q: searchQuery, enrich, slim } = ctx.req.query();
 	let results = store.countries;
 
 	if (continent) {
@@ -16,7 +30,6 @@ countries.get("/", (ctx) => {
 
 	if (searchQuery) {
 		const search = searchQuery.toLowerCase();
-
 		results = results.filter(
 			(country) =>
 				country.name.toLowerCase().includes(search) ||
@@ -24,10 +37,13 @@ countries.get("/", (ctx) => {
 		);
 	}
 
-	return ctx.json(results);
+	const doEnrich = enrich === "true";
+	const doSlim = slim === "true";
+
+	return ctx.json(results.map((c) => formatCountry(c, doEnrich, doSlim)));
 });
 
-// GET /countries/:code
+// GET /countries/:code?enrich=true&slim=true
 countries.get("/:code", (ctx) => {
 	const code = ctx.req.param("code").toUpperCase();
 	const country = store.byCountryCode.get(code);
@@ -35,5 +51,6 @@ countries.get("/:code", (ctx) => {
 	if (!country)
 		return ctx.json({ error: "Not found" }, 404);
 
-	return ctx.json(country);
+	const { enrich, slim } = ctx.req.query();
+	return ctx.json(formatCountry(country, enrich === "true", slim === "true"));
 });
